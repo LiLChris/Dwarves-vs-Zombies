@@ -99,7 +99,7 @@ public class Game {
 	private HashMap<String, Integer> spell1time = new HashMap<String, Integer>();
 	private HashMap<String, Integer> spell2time = new HashMap<String, Integer>();
 	private HashMap<String, Integer> spell3time = new HashMap<String, Integer>(); //3 = bei assasin time until kill
-	private HashMap<String, Integer> spell4time = new HashMap<String, Integer>(); //4 = immer map für monster/immer disable portal für dwarves
+	private HashMap<String, Integer> spell4time = new HashMap<String, Integer>(); //4 = immer map fÃ¼r monster/immer disable portal fÃ¼r dwarves
 	
 	private HashMap<String, Integer> invultimer = new HashMap<String, Integer>();
 	
@@ -150,7 +150,7 @@ public class Game {
 		
 		mana = new ManaManager();
 		
-		globalCrystalChest = Bukkit.createInventory(null, 27, ConfigManager.getLanguage().getString("string_crystal_storage", "Crystal Storage"));
+		globalCrystalChest = Bukkit.createInventory(null, 36, ConfigManager.getLanguage().getString("string_crystal_storage", "Crystal Storage"));
 		crystalPerPlayer.clear();
 		
 		String wadd = "";
@@ -237,7 +237,8 @@ public class Game {
 		
 		mana.reset();
 		
-		globalCrystalChest = Bukkit.createInventory(null, 27, ConfigManager.getLanguage().getString("string_crystal_storage", "Crystal Storage"));
+		// globalCrystalChest = Bukkit.createInventory(null, 36, ConfigManager.getLanguage().getString("string_crystal_storage", "Crystal Storage"));
+		globalCrystalChest = Bukkit.createInventory(null, (ConfigManager.getStaticConfig().getInt("globalCrystalChest", 27)),ConfigManager.getLanguage().getString("string_crystal_storage", "Crystal Storage"));
 		crystalPerPlayer.clear();
 		
 		waitm.releaseAll();
@@ -268,7 +269,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Tick für Countdown
+	//Tick fÃ¼r Countdown
 	//#######################################
 	public void tick() {
 		//Gamestatus zu Spielern senden
@@ -297,7 +298,11 @@ public class Game {
 			if (time>=0) time--;
 			
 			if (time==60*5) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_minutes","-0- Minutes left!").replace("-0-", "5"));
-			else if (time==60) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_minute","-0- Minute left!").replace("-0-", "1"));
+			else if (time==60) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_minute","-0- Minute left!").replace("-0-", "1"));			
+			else if (time==50) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "50"));
+			else if (time==40) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "40"));
+			else if (time==30) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "30"));
+			else if (time==20) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "20"));
 			else if (time==10) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "10"));
 			else if (time==5) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "5"));
 			else if (time==4) broadcastMessage(ConfigManager.getLanguage().getString("string_starting_seconds","-0- Seconds left!").replace("-0-", "4"));
@@ -371,7 +376,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Tick für Countdown
+	//Tick fÃ¼r Countdown
 	//#######################################
 	private void countdownTicker() {
 		for(Map.Entry<String, Integer> e : spell1time.entrySet()){
@@ -542,9 +547,9 @@ public class Game {
 		}
 		
 		if (dwarf==0 && (mons>=1 || monsoff>=1)) {
-			broadcastMessage(ConfigManager.getLanguage().getString("string_lose_dwarf","§4Game Over!§f No more Dwarves!"));
+			broadcastMessage(ConfigManager.getLanguage().getString("string_lose_dwarf","Â§4Game Over!Â§f No more Dwarves!"));
 			if(lastdwarf!=null)
-				broadcastMessage(ConfigManager.getLanguage().getString("string_last_dwarf","Last standing Dwarf - §e-0-§f! Congratulations!").replace("-0-", lastdwarf));
+				broadcastMessage(ConfigManager.getLanguage().getString("string_last_dwarf","Last standing Dwarf - Â§e-0-Â§f! Congratulations!").replace("-0-", lastdwarf));
 			
 			reset(true);
 		}
@@ -570,7 +575,7 @@ public class Game {
 		monumentHealth = 100 - (int) Math.round((100/(double)4)*destroyed);
 		
 		if (destr) {
-			broadcastMessage(ConfigManager.getLanguage().getString("string_lose_monument","§4Game Over!§f The Monument has been destroyed!"));
+			broadcastMessage(ConfigManager.getLanguage().getString("string_lose_monument","Â§4Game Over!Â§f The Monument has been destroyed!"));
 
 			broadcastMessage(ConfigManager.getLanguage().getString("string_lose_monument_dwarves","Dwarves who failed to protect the Monument:"));
 			printSurvivingPlayers();
@@ -580,7 +585,7 @@ public class Game {
 	}
 	
 	private void win() {
-		broadcastMessage(ConfigManager.getLanguage().getString("string_win","§4Victory!§f The dwarves protected the Monument!"));
+		broadcastMessage(ConfigManager.getLanguage().getString("string_win","Â§4Victory!Â§f The dwarves protected the Monument!"));
 		
 		broadcastMessage(ConfigManager.getLanguage().getString("string_win_dwarves","Dwarves who survived and protected the Monument:"));
 		printSurvivingPlayers();
@@ -652,7 +657,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Gehört dieser block zum monument
+	//GehÃ¶rt dieser block zum monument
 	//#######################################
 	public boolean isMonument(Block b) {
 		if(monumentexists) {
@@ -757,7 +762,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Dwarf Items hinzufügen
+	//Dwarf Items hinzufÃ¼gen
 	//#######################################
 	public void addDwarfItems(final Player player) {
 		Random rand = new Random();
@@ -871,7 +876,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Monster Items hinzufügen
+	//Monster Items hinzufÃ¼gen
 	//#######################################
 	public void addMonsterItems(final Player player) {
 		Random rand = new Random();
@@ -1197,7 +1202,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Anfang des Spieles Spieler hizufügen
+	//Anfang des Spieles Spieler hizufÃ¼gen
 	//#######################################
 	public boolean addPlayer(String player) {
 		//nur wenn noch nicht eingetragen und spiel nicht gestartet
@@ -1223,7 +1228,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Monster unverwundbar für ... Sekunden
+	//Monster unverwundbar fÃ¼r ... Sekunden
 	//#######################################
 	public void addMonsterBuff(Player player) {
 		int time = plugin.getConfig().getInt("monster_invulnarable", 30);
@@ -1346,7 +1351,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Alle Spieler neu "Disguisen" - Temporärer Workaround
+	//Alle Spieler neu "Disguisen" - TemporÃ¤rer Workaround
 	//#######################################
 	public void redisguisePlayers() {
 		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
@@ -1593,7 +1598,7 @@ public class Game {
 	}
 	
 	//#######################################
-	//Broadcast Message nur für die Spieler
+	//Broadcast Message nur fÃ¼r die Spieler
 	//#######################################
 	public void broadcastMessage(String message) {
 		Object[] rplayers = playerstate.keySet().toArray();
